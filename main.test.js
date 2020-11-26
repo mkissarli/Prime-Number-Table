@@ -2,6 +2,15 @@ const sieve_module = require("./main.js");
 const sieve_under_n = sieve_module.sieve_under_n;
 const is_prime = sieve_module.is_prime;
 
+// Set up
+// This should really be streamed in but it works so its fine.
+var fs = require('fs');
+var primes = fs.readFileSync('primes-upto-300k')
+               .toString()
+               .split("\n")
+               .map( x => parseInt(x));
+
+
 describe('sieve_under_n', () => {
     test('sieve of n != int returns an error', () => {
         expect(sieve_under_n("p")).toThrow("n must be an integer.");
@@ -13,28 +22,25 @@ describe('sieve_under_n', () => {
         expect(sieve_under_n(-1)).toThrow("n  must be 1 or greater.");
         expect(sieve_under_n(-100)).toThrow("n  must be 1 or greater.");
     });
-    test('sieve of 1 returns an array of length 1', () => {
-        expect(sieve_under_n(1)).toStrictEqual([2])
+    test('sieve of first 1 returns an array of length 1', () => {
+        expect(sieve_under_n(1)).toStrictEqual(primes.slice(0, 1))
     });
-    test('sieve of 3 returns an array of length 3', () => {
-        expect(sieve_under_n(3)).toStrictEqual([2, 3, 5])
+    test('sieve of first 3 returns an array of length 3', () => {
+        expect(sieve_under_n(3)).toStrictEqual(primes.slice(0, 3))
     });
     
-    test('sieve of 8 returns an array of length 8', () => {
-        expect(sieve_under_n(8)).toStrictEqual([2,   3,  5, 7, 11,
-                                                13, 17, 19])
+    test('sieve of first 8 returns an array of length 8', () => {
+        expect(sieve_under_n(8)).toStrictEqual(primes.slice(0, 8))
     });
-    test('sieve of 15 returns an array of length 15', () => {
-        expect(sieve_under_n(15)).toStrictEqual([ 2,  3,  5,  7, 11,
-                                                  13, 17, 19, 21, 23,
-                                                  29, 31, 37, 41, 43])
+    test('sieve of first 15 returns an array of length 15', () => {
+        expect(sieve_under_n(15)).toStrictEqual(primes.slice(0, 15))
     });
-    test('sieve of 24 returns an array of length 24', () => {
-        expect(sieve_under_n(24)).toStrictEqual([ 2,  3,  5,  7, 11,
-                                                  13, 17, 19, 21, 23,
-                                                  29, 31, 37, 41, 43,
-                                                  47, 53, 59, 61, 67,
-                                                  71, 73, 79, 83])
+    test('sieve of first 24 returns an array of length 24', () => {
+        expect(sieve_under_n(24)).toStrictEqual(primes.slice(0, 24))
+    });
+
+    test('sieve of first 20000 returns an array of length 20000', () => {
+        expect(sieve_under_n(20000)).toStrictEqual(primes.slice(0, 20000))
     });
     
     // Really high one here
@@ -47,7 +53,16 @@ describe('is_prime', () => {
     });
     test('2 is a prime', () => {
         expect(is_prime(2)).toBe(true);
-    })
+    });
+    test('4 is not prime', () => {
+        expect(is_prime(4)).toBe(false);
+    });
+    test('23 is a prime', () => {
+        expect(is_prime(23)).toBe(true);
+    });
+    test('100 is not prime', () => {
+        expect(is_prime(100)).toBe(false);
+    });
 });
 
 
