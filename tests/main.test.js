@@ -1,4 +1,4 @@
-import { is_prime, sieve_under_n, make_multi_table } from '../dist/main.js';
+import { is_prime, sieve_under_n, make_multi_table, prepare_for_output, is_array_of_chars } from '../dist/main.js';
 // Set up
 // This should really be streamed in but it works so its fine.
 import fs from 'fs';
@@ -89,4 +89,52 @@ describe('make_multi_table', () => {
     });
 });
 
+describe('prepare_for_output', () => {
+    test('prepare_for_output throws error if not passed 2D array for a tbl', () => {
+        expect(prepare_for_output(1,[1],[1])).toStrictEqual(new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers."));
+        expect(prepare_for_output([2],[1],[1])).toStrictEqual(new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers."));
+        expect(prepare_for_output([[[2]]],[1],[1])).toStrictEqual(new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers."));
+    });
+    test('prepare_for_output throws error if passed 2D array of non-numbers or chars for a tbl', () => {
+        expect(prepare_for_output([["aa", "bb"], ["Bb", "Cc"]], [1, 2], [1,2])).toStrictEqual(new TypeError("tbl must be a 2D array of chars or integers."));
+        expect(prepare_for_output([[[2]], [[2]]],[1, 2] ,[1, 2])).toStrictEqual(new TypeError("tbl must be a 2D array of chars or integers."));
+        expect(prepare_for_output([[], []], [1], [2])).toStrictEqual(new TypeError("tbl must be a 2D array of chars or integers."));
+    });
+    
+    test('prepare_for_output throws error if passed tbl with a row length less than primes_1', () => {
+        expect(prepare_for_output([[1, 2], [3, 4]], [1, 2, 3], [3, 4])).toStrictEqual(new TypeError("each row in tbl must be of same length as primes_1"));
+        expect(prepare_for_output([[1], [3, 4]], [1,2] ,[3, 4])).toStrictEqual(new TypeError("each row in tbl must be of same length as primes_1"));
+    });
+    test('prepare_for_output throws error if passed tbl with a column length less than primes_2', () => {
+        expect(prepare_for_output([[1, 2], [3, 4]], [1, 2], [1, 2, 3])).toStrictEqual(new TypeError("each column in tbl must be of same length as primes_2"));
+        expect(prepare_for_output([[1, 2], [3]], [1, 2], [1])).toStrictEqual(new TypeError("each column in tbl must be of same length as primes_2"));
+    });
+
+    test('prepare_for_output throws error if passed prime_1 or prime_2 as a non-alphanumeric 1D array', () => {
+        expect(prepare_for_output([[1, 2], [2, 3]], [[],[]] ,[[], []])).toStrictEqual(new TypeError("must provide a 2D array of integers, and 2 arrays of either chars or numbers."));
+        expect(prepare_for_output([[1, 2], [2, 3]], ["no", "ko"], ["lp", "po"])).toStrictEqual(new TypeError("must provide a 2D array of integers, and 2 arrays of either chars or numbers."));
+        expect(prepare_for_output([[1, 2], [2, 3]], [null, "ko"], [false, "po"])).toStrictEqual(new TypeError("must provide a 2D array of integers, and 2 arrays of either chars or numbers."));
+    });
+    
+    test('prepare_for_output passed [[1, 2, 3], [4, 5, 6]], [1, 2, 3] and [1, 2]', () => {
+        expect(prepare_for_output([[1, 2, 3], [4, 5, 6]], [1, 2, 3], [1, 2])).toStrictEqual(
+            [["\\", 1, 2, 3],
+             [1, 1, 2, 3],
+             [2, 4, 5, 6]]
+        )
+    });
+});
+
+describe('is_array_of_chars', () => {
+    test('tests ["no", "yes", 1, 2]', () => {
+        expect(is_array_of_chars(["no", "yes", 1, 2])).toStrictEqual(false);
+    });
+    test("tests ['n', 'y', 1, 2]", () => {
+        expect(is_array_of_chars(['n', 'y', 1, 2])).toStrictEqual(true);
+    });
+    test("tests ['n', 'y', 1, []]", () => {
+        expect(is_array_of_chars(['n', 'y', 1, []])).toStrictEqual(false); 
+    });
+
+});
 

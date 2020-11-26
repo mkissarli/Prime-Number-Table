@@ -10,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.sieve_under_n = sieve_under_n;
 exports.is_prime = is_prime;
 exports.make_multi_table = make_multi_table;
+exports.is_array_of_chars = is_array_of_chars;
+exports.prepare_for_output = prepare_for_output;
 
 function sieve_under_n(n) {
   if (!Number.isInteger(n)) return new TypeError('n must be an integer.');
@@ -65,6 +67,48 @@ function make_multi_table(A, B) {
   }
 
   return result;
+}
+
+function is_array_of_chars(x) {
+  for (var i = 0; i < x.length; ++i) {
+    if ( //Array.isArray(x) ||
+    //x[i].length !== 1 ||
+    !(typeof x[i] === 'string' && x[i].length === 1) && !Number.isInteger(x[i])) {
+      return false;
+    }
+  }
+
+  ;
+  return true;
+}
+
+function prepare_for_output(tbl, primes_1, primes_2) {
+  if (!Array.isArray(tbl) || !is_array_of_chars(primes_1) || !is_array_of_chars(primes_2)) {
+    return new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers.");
+  }
+
+  tbl.forEach(function (x) {
+    if (!is_array_of_chars(x)) {
+      return new TypeError("tbl must be a 2D array of chars or integers.");
+    }
+
+    if (x.length !== primes_1.length) {
+      return new TypeError("each row in tbl must be of same length as primes_1");
+    }
+  });
+
+  if (tbl.length !== primes_2.length) {
+    return new TypeError("each column in tbl must be of same length as primes_2");
+  }
+
+  primes_1.unshift("\\");
+  tbl.unshift(primes_1);
+
+  for (var i = 1; i < tbl.length; ++i) {
+    tbl[i].unshift(primes_2[i - 1]);
+  }
+
+  return tbl;
 } //exports.sieve_under_n = sieve_under_n;
 //exports.is_prime = is_prime;
 //exports.make_multi_table = make_multi_table;
