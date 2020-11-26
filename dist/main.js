@@ -5,13 +5,8 @@
 ///   corner of such a sieve) long array of primes.
 
 function sieve_under_n(n) {
-  if (!Number.isInteger(n)) {
-    throw new TypeError('n must be an integer.');
-  }
-
-  if (n <= 0) {
-    throw new TypeError('n must be 1 or greater.');
-  }
+  if (!Number.isInteger(n)) return new TypeError('n must be an integer.');
+  if (n <= 0) return new TypeError('n must be 1 or greater.');
 
   if (n == 1) {
     return [2];

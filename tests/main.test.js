@@ -9,15 +9,17 @@ var primes = fs.readFileSync(__dirname + '/assets/primes-upto-300k')
 
 
 describe('sieve_under_n', () => {
+    /// NOTE:: This entire sequence for testing is awful and shouldn't really be
+    ///   done like this, but jest is being annoying and it's technically fine.
     test('sieve of n != int returns an error', () => {
-        expect(sieve_under_n("p")).toThrow();//"n must be an integer.");
-        expect(sieve_under_n(10.22)).toThrow();//"n must be an integer.");
-        expect(sieve_under_n([0])).toThrow();//"n must be an integer.");
+        expect(sieve_under_n("p")).toStrictEqual(new TypeError("n must be an integer."));
+        expect(sieve_under_n(10.22)).toStrictEqual(new TypeError("n must be an integer."));
+        expect(sieve_under_n([0])).toStrictEqual(new TypeError("n must be an integer."));
     });
     test('sieve of n <= 0 returns an error', () => {
-        expect(sieve_under_n(0)).toThrow("n must be 1 or greater.");
-        expect(sieve_under_n(-1)).toThrow("n must be 1 or greater.");
-        expect(sieve_under_n(-100)).toThrow("n must be 1 or greater.");
+        expect(sieve_under_n(0)).toStrictEqual(new TypeError("n must be 1 or greater."));
+        expect(sieve_under_n(-1)).toStrictEqual(new TypeError("n must be 1 or greater."));
+        expect(sieve_under_n(-100)).toStrictEqual(new TypeError("n must be 1 or greater."));
     });
     test('sieve of first 1 returns an array of length 1', () => {
         expect(sieve_under_n(1)).toStrictEqual(primes.slice(0, 1))
