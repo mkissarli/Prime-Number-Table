@@ -144,13 +144,13 @@ function pretty_print(n){
 var args = process.argv.slice(2);
 var good = true;
 
-if(!(/^\+?(0|[1-9]\d*)$/.test(args))){
-    console.log("Error, please ensure your argument is an integer.");
+if(args.length > 1 || args.length == 0){
+    console.log("Error, please provide exactly one integer.");
     good = false;
 }
 
-else if(args.length > 1 || args.length == 0){
-    console.log("Error, please provide exactly one integer.");
+else if(!(/^\+?(0|[1-9]\d*)$/.test(args))){
+    console.log("Error, please ensure your argument is an integer.");
     good = false;
 }
 
