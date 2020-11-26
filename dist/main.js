@@ -7,15 +7,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sieve_under_n = sieve_under_n;
+exports.sieve_n = sieve_n;
 exports.is_prime = is_prime;
 exports.make_multi_table = make_multi_table;
 exports.is_array_of_chars = is_array_of_chars;
-exports.prepare_for_output = prepare_for_output;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function sieve_under_n(n) {
+function sieve_n(n) {
   if (!Number.isInteger(n)) return new TypeError('n must be an integer.');
   if (n <= 0) return new TypeError('n must be 1 or greater.');
 
@@ -86,35 +85,61 @@ function is_array_of_chars(x) {
   return true;
 }
 
-function prepare_for_output(tbl, primes_1, primes_2) {
-  if (!Array.isArray(tbl) || !is_array_of_chars(primes_1) || !is_array_of_chars(primes_2)) {
-    return new TypeError("must provide a 2D array of strings or numbers, and 2 arrays of either strings or numbers.");
+function pretty_print(n) {
+  console.log("program");
+  var primes = sieve_n(n);
+  var output = make_multi_table(primes, primes); // For padding.
+
+  var max = output[n - 1][n - 1].toString().length;
+  var s = " ".repeat(max - 1).concat("\\ | ");
+
+  for (var i = 0; i < n; ++i) {
+    s = s.concat(" ".repeat(max - primes[i].toString().length)).concat(primes[i]).toString().concat(" | ");
   }
 
-  for (var i = 0; i < tbl.length; ++i) {
-    if (!is_array_of_chars(tbl[i])) {
-      return new TypeError("tbl must be a 2D array of strings or integers.");
+  console.log(s);
+  console.log("=".repeat(n * (max + 4)));
+
+  for (var i = 0; i < n; ++i) {
+    var s = " ".repeat(max - primes[i].toString().length).concat(primes[i]).concat(" | ");
+
+    for (var j = 0; j < n; ++j) {
+      var l = output[i][j].toString().length;
+      s = s.concat(" ".repeat(max - l)).concat(output[i][j]).concat(" | ");
     }
 
-    if (tbl[i].length !== primes_1.length) {
-      return new TypeError("each row in tbl must be of same length as primes_1");
+    console.log(s);
+  }
+}
+
+pretty_print(10000);
+/* NO LONGER NEEDED
+export function prepare_for_output(tbl, primes_1, primes_2){
+    if(!Array.isArray(tbl) ||
+       !is_array_of_chars(primes_1) ||
+       !is_array_of_chars(primes_2)){
+           return (new TypeError("must provide a 2D array of strings or numbers, and 2 arrays of either strings or numbers."))
     }
-  }
 
-  ;
+    for(var i = 0; i < tbl.length; ++i){
+        if(!is_array_of_chars(tbl[i])){
+            return (new TypeError("tbl must be a 2D array of strings or integers."))
+        }
+        if(tbl[i].length !== primes_1.length){
+            return (new TypeError("each row in tbl must be of same length as primes_1"));
+        }
+    };
+    
+    if(tbl.length !== primes_2.length){
+        return (new TypeError("each column in tbl must be of same length as primes_2"));
+    }
+    
+    primes_1.unshift("\\");
+    tbl.unshift(primes_1);
 
-  if (tbl.length !== primes_2.length) {
-    return new TypeError("each column in tbl must be of same length as primes_2");
-  }
+    for(var i = 1; i < tbl.length; ++i){
+        tbl[i - 1].unshift(primes_2[i]);
+    }
 
-  primes_1.unshift("\\");
-  tbl.unshift(primes_1);
-
-  for (var i = 1; i < tbl.length; ++i) {
-    tbl[i].unshift(primes_2[i - 1]);
-  }
-
-  return tbl;
-} //exports.sieve_under_n = sieve_under_n;
-//exports.is_prime = is_prime;
-//exports.make_multi_table = make_multi_table;
+    return tbl;
+}*/
