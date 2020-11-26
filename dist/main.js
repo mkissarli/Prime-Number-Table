@@ -4,6 +4,13 @@
 /// @return :array<int>, an (n+1)*(n+1) - 1 (to account for the empty top left
 ///   corner of such a sieve) long array of primes.
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sieve_under_n = sieve_under_n;
+exports.is_prime = is_prime;
+exports.make_multi_table = make_multi_table;
+
 function sieve_under_n(n) {
   if (!Number.isInteger(n)) return new TypeError('n must be an integer.');
   if (n <= 0) return new TypeError('n must be 1 or greater.');
@@ -40,5 +47,20 @@ function is_prime(n) {
   return true;
 }
 
-exports.sieve_under_n = sieve_under_n;
-exports.is_prime = is_prime;
+function make_multi_table(A, B) {
+  var result = [];
+
+  for (var i = 0; i < A.length; ++i) {
+    var row = [];
+
+    for (var j = 0; j < B.length; ++j) {
+      row.push(A[i] * B[j]);
+    }
+
+    result.push(row);
+  }
+
+  return result;
+} //exports.sieve_under_n = sieve_under_n;
+//exports.is_prime = is_prime;
+//exports.make_multi_table = make_multi_table;

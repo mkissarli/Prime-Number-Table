@@ -1,4 +1,4 @@
-import { is_prime, sieve_under_n } from '../dist/main.js';
+import { is_prime, sieve_under_n, make_multi_table } from '../dist/main.js';
 // Set up
 // This should really be streamed in but it works so its fine.
 import fs from 'fs';

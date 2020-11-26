@@ -4,7 +4,7 @@
 ///   output.
 /// @return :array<int>, an (n+1)*(n+1) - 1 (to account for the empty top left
 ///   corner of such a sieve) long array of primes.
-function sieve_under_n(n){
+export function sieve_under_n(n){
  
     if(!Number.isInteger(n)) return (new TypeError('n must be an integer.'));
     if(n <= 0) return(new TypeError('n must be 1 or greater.'));
@@ -25,7 +25,7 @@ function sieve_under_n(n){
     return result;
 }
 
-function is_prime(n) {
+export function is_prime(n) {
     if (n < 2) {
         return false
     }
@@ -38,12 +38,18 @@ function is_prime(n) {
     return true;
 }
 
-function make_multi_table(A, B){
-    result = [];
+export function make_multi_table(A, B){
+    var result = [];
     for(var i = 0; i < A.length; ++i){
-        result[]
+        let row = [];
+        for(var j = 0; j < B.length; ++j){
+            row.push(A[i] * B[j]);
+        }
+        result.push(row);
     }
+    return result;
 }
 
-exports.sieve_under_n = sieve_under_n;
-exports.is_prime = is_prime;
+//exports.sieve_under_n = sieve_under_n;
+//exports.is_prime = is_prime;
+//exports.make_multi_table = make_multi_table;
