@@ -1,4 +1,4 @@
-const sieve = require('./main');
+const sieve = require('./sieve');
 
 test('sieve of 1 returns an array of length 3', () => {
     expect(sieve(1)).toBe([2, 3, 5])
