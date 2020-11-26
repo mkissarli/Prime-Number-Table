@@ -138,7 +138,7 @@ function pretty_print(n){
 
 
 /********************************************************************************
- * Main script. No need to wrap in a function and not united tested.
+ * Main script. No need to wrap in a function and not unit tested.
  */
 
 var args = process.argv.slice(2);
