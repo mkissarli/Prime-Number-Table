@@ -58,16 +58,20 @@ function make_multi_table(A, B) {
   var result = [];
 
   for (var i = 0; i < A.length; ++i) {
-    var row = [];
-
-    for (var j = 0; j < B.length; ++j) {
-      row.push(A[i] * B[j]);
-    }
-
-    result.push(row);
+    result.push(make_row_table(A[j], B));
   }
 
   return result;
+}
+
+function make_row_table(a, B) {
+  var row = [];
+
+  for (var j = 0; j < B.length; ++j) {
+    row.push(a * B[j]);
+  }
+
+  return row;
 }
 
 function is_array_of_chars(x) {
@@ -87,10 +91,10 @@ function is_array_of_chars(x) {
 
 function pretty_print(n) {
   console.log("program");
-  var primes = sieve_n(n);
-  var output = make_multi_table(primes, primes); // For padding.
+  var primes = sieve_n(n); //var output = make_multi_table(primes, primes);
+  // For padding.
 
-  var max = output[n - 1][n - 1].toString().length;
+  var max = Math.pow(primes[n - 1], 2).toString().length;
   var s = " ".repeat(max - 1).concat("\\ | ");
 
   for (var i = 0; i < n; ++i) {
@@ -102,17 +106,18 @@ function pretty_print(n) {
 
   for (var i = 0; i < n; ++i) {
     var s = " ".repeat(max - primes[i].toString().length).concat(primes[i]).concat(" | ");
+    var row = make_row_table(primes[i], primes);
 
     for (var j = 0; j < n; ++j) {
-      var l = output[i][j].toString().length;
-      s = s.concat(" ".repeat(max - l)).concat(output[i][j]).concat(" | ");
+      var l = row[j].toString().length;
+      s = s.concat(" ".repeat(max - l)).concat(row[j]).concat(" | ");
     }
 
     console.log(s);
   }
 }
 
-pretty_print(10000);
+pretty_print(20000);
 /* NO LONGER NEEDED
 export function prepare_for_output(tbl, primes_1, primes_2){
     if(!Array.isArray(tbl) ||
