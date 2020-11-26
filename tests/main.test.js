@@ -1,4 +1,10 @@
-import { is_prime, sieve_n, make_multi_table, prepare_for_output, is_array_of_chars } from '../dist/main.js';
+//import { is_prime, sieve_n, make_multi_table, prepare_for_output, is_array_of_chars } from '../dist/main.js';
+const main = require('../src/main.js');
+const is_prime = main.is_prime;
+const sieve_n = main.sieve_n;
+const make_row_table = main.make_row_table;
+const is_array_of_chars = main.is_array_of_chars;
+
 // Set up
 // This should really be streamed in but it works so its fine.
 import fs from 'fs';
@@ -60,32 +66,54 @@ describe('is_prime', () => {
         expect(is_prime(100)).toBe(false);
     });
 });
+/*
+   describe('make_multi_table', () => {
+   test('make_multi_table returns an error when not passed exactly 2 1D arrays', () => {
+   expect(make_multi_table(["p", 1], [0, 2])).toStrictEqual(new TypeError("must provide two 1D arrays."));
+   expect(make_multi_table("p", 0)).toStrictEqual(new TypeError("must provide two 1D arrays."));
+   expect(make_multi_table(10.22, [1])).toStrictEqual(new TypeError("must provide two 1D arrays."));
+   expect(make_multi_table([0], 1)).toStrictEqual(new TypeError("must provide two 1D arrays."));
+   expect(make_multi_table([0, 1], [[1,2], [1,2]])).toStrictEqual(new TypeError("must provide two 1D arrays."));
+   });
+   
+   
+   test('passing in [1] and [1] gives [[1]]', () => {
+   expect(make_multi_table([1],[1])).toStrictEqual([[1]])
+   });
+   test('passing in [1] and [2] gives [[2]]', () => {
+   expect(make_multi_table([1],[2])).toStrictEqual([[2]])
+   });
+   test('passing in [1, 2] and [1, 2] gives [[1, 2], [2, 4]', () => {
+   expect(make_multi_table([1, 2],[1, 2])).toStrictEqual([[1, 2], [2, 4]])
+   });
+   
+   test('passing in [1] and [1, 2] gives [[1, 2]]', () => {
+   expect(make_multi_table([1], [1,2])).toStrictEqual([[1, 2]])
+   });
+   test('passing in [1, 3] and [1, 2, 3] gives [[1, 2, 3], [3, 6, 9]]', () => {
+   expect(make_multi_table([1, 3],[1, 2, 3])).toStrictEqual([[1, 2, 3], [3, 6, 9]])
+   });
+   });
+ */
 
-describe('make_multi_table', () => {
-    test('make_multi_table returns an error when not passed exactly 2 1D arrays', () => {
-        expect(make_multi_table(["p", 1], [0, 2])).toStrictEqual(new TypeError("must provide two 1D arrays."));
-        expect(make_multi_table("p", 0)).toStrictEqual(new TypeError("must provide two 1D arrays."));
-        expect(make_multi_table(10.22, [1])).toStrictEqual(new TypeError("must provide two 1D arrays."));
-        expect(make_multi_table([0], 1)).toStrictEqual(new TypeError("must provide two 1D arrays."));
-        expect(make_multi_table([0, 1], [[1,2], [1,2]])).toStrictEqual(new TypeError("must provide two 1D arrays."));
+describe('make_row_table', () => {
+    test('throw error if passed a non-integer for a', () => {
+        expect(make_row_table([], [1,1,1])).toStrictEqual(new TypeError("ensure a is a integer."));
+        expect(make_row_table("k", [1,1,1])).toStrictEqual(new TypeError("ensure a is a integer."));
+        expect(make_row_table(null, [1,1,1])).toStrictEqual(new TypeError("ensure a is a integer."));
     });
-    
-    
-    test('passing in [1] and [1] gives [[1]]', () => {
-        expect(make_multi_table([1],[1])).toStrictEqual([[1]])
+    test('throw error if passed not passed a list of integers for B', () => {
+        expect(make_row_table(1, ["c"])).toStrictEqual(new TypeError("ensure B is an array of integers."));
+        expect(make_row_table(1, "c")).toStrictEqual(new TypeError("ensure B is an array of integers."));
+        expect(make_row_table(1, 1)).toStrictEqual(new TypeError("ensure B is an array of integers."));
+        expect(make_row_table(1, null)).toStrictEqual(new TypeError("ensure B is an array of integers."));
     });
-    test('passing in [1] and [2] gives [[2]]', () => {
-        expect(make_multi_table([1],[2])).toStrictEqual([[2]])
-    });
-    test('passing in [1, 2] and [1, 2] gives [[1, 2], [2, 4]', () => {
-        expect(make_multi_table([1, 2],[1, 2])).toStrictEqual([[1, 2], [2, 4]])
-    });
-    
-    test('passing in [1] and [1, 2] gives [[1, 2]]', () => {
-        expect(make_multi_table([1], [1,2])).toStrictEqual([[1, 2]])
-    });
-    test('passing in [1, 3] and [1, 2, 3] gives [[1, 2, 3], [3, 6, 9]]', () => {
-        expect(make_multi_table([1, 3],[1, 2, 3])).toStrictEqual([[1, 2, 3], [3, 6, 9]])
+    test('check correct values', () => {
+        expect(make_row_table(1, [1, 1])).toStrictEqual([1, 1]);
+        expect(make_row_table(2, [3, 2, 3])).toStrictEqual([6, 4, 6]);
+        expect(make_row_table(1, [1])).toStrictEqual([1]);
+        expect(make_row_table(4, [1, 2, 3])).toStrictEqual([4, 8, 12]);
+        expect(make_row_table(1, [])).toStrictEqual([]);
     });
 });
 
