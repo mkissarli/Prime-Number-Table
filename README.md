@@ -10,8 +10,8 @@ Ensure Node is install (version 14 LTS was used for testing). Then run the
 following commands for setup:
 
 ```
-git clone 
-cd <director_>
+git clone https://github.com/mkissarli/Prime-Number-Table.git
+cd Prime-Number-Table
 npm install --save-dev
 npm run babel
 ```
