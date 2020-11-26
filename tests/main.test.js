@@ -41,9 +41,6 @@ describe('sieve_under_n', () => {
     test('sieve of first 20000 returns an array of length 20000', () => {
         expect(sieve_under_n(20000)).toStrictEqual(primes.slice(0, 20000))
     });
-    
-    // Really high one here
-
 });
 
 describe('is_prime', () => {
@@ -61,6 +58,21 @@ describe('is_prime', () => {
     });
     test('100 is not prime', () => {
         expect(is_prime(100)).toBe(false);
+    });
+});
+
+describe('make_multi_table', () => {
+    test('passing in [1] and [1] gives [[1]]', () => {
+        expect(make_multi_table([1],[1])).toStrictEqual([[1]])
+    });
+    test('passing in [1] and [2] gives [[2]]', () => {
+        expect(make_multi_table([1],[2])).toStrictEqual([[2]])
+    });
+    test('passing in [1, 2] and [1, 2] gives [[1, 2], [2, 4]', () => {
+        expect(make_multi_table([1, 2],[1, 2])).toStrictEqual([[1, 2], [2, 4]])
+    });
+    test('passing in [1] and [1] gives [[1]]', () => {
+        expect(make_multi_table([1],[1])).toStrictEqual([[1]])
     });
 });
 

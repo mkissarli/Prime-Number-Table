@@ -36,7 +36,14 @@ function is_prime(n) {
         } 
     }
     return true;
-  }
+}
+
+function make_multi_table(A, B){
+    result = [];
+    for(var i = 0; i < A.length; ++i){
+        result[]
+    }
+}
 
 exports.sieve_under_n = sieve_under_n;
 exports.is_prime = is_prime;
