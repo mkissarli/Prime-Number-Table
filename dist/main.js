@@ -90,7 +90,6 @@ function is_array_of_chars(x) {
 }
 
 function pretty_print(n) {
-  console.log("program");
   var primes = sieve_n(n); //var output = make_multi_table(primes, primes);
   // For padding.
 
@@ -115,9 +114,25 @@ function pretty_print(n) {
 
     console.log(s);
   }
+} /// Main
+
+
+var args = process.argv.slice(2);
+var good = true;
+console.log(process.argv);
+console.log(args);
+
+if (!/^\+?(0|[1-9]\d*)$/.test(args)) {
+  console.log("Error, please ensure your argument is an integer.");
+  good = false;
+} else if (args.length > 1 || args.length == 0) {
+  console.log("Error, please provide exactly one integer.");
+  good = false;
 }
 
-pretty_print(20000);
+if (good) {
+  pretty_print(parseInt(args));
+}
 /* NO LONGER NEEDED
 export function prepare_for_output(tbl, primes_1, primes_2){
     if(!Array.isArray(tbl) ||

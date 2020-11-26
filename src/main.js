@@ -77,7 +77,6 @@ export function is_array_of_chars(x){
 }
 
 function pretty_print(n){
-    console.log("program");
     var primes = sieve_n(n);
     //var output = make_multi_table(primes, primes);
 
@@ -102,7 +101,21 @@ function pretty_print(n){
     }
 }
 
-pretty_print(20000);
+/// Main
+var args = process.argv.slice(2);
+var good = true;
+    
+if(!(/^\+?(0|[1-9]\d*)$/.test(args))){
+    console.log("Error, please ensure your argument is an integer.");
+    good = false;
+}
+
+else if(args.length > 1 || args.length == 0){
+    console.log("Error, please provide exactly one integer.");
+    good = false;
+}
+
+if(good){pretty_print(parseInt(args));}
 
 
 /* NO LONGER NEEDED
