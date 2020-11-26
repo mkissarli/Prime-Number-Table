@@ -35,5 +35,7 @@ To run tests you can execute:
 + Implament a better ui. Currently the ui is clean and simple, although somewhat difficult to use if you're not familar with the terminal. A web interface could be helpful, and in particular could be made to allow you to actually view massive tables of 10000-20000 primes.
 + Could be made more decoupled, but in reality I feel that it's decoupled enough that further abstract isn't worth the programmer efficency.
 ## Notes
+I choose to design the program in a functional style because it is inherently mathematical in nature and I feel it makes a lot of sense for the application. Furthermore, its easy to test because there is no state really to deal with.
+
 Prime numbers file was obtained from
 https://www.mathsisfun.com/numbers/prime-number-lists.html
