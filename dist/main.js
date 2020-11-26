@@ -13,6 +13,8 @@ exports.make_multi_table = make_multi_table;
 exports.is_array_of_chars = is_array_of_chars;
 exports.prepare_for_output = prepare_for_output;
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function sieve_under_n(n) {
   if (!Number.isInteger(n)) return new TypeError('n must be an integer.');
   if (n <= 0) return new TypeError('n must be 1 or greater.');
@@ -70,10 +72,12 @@ function make_multi_table(A, B) {
 }
 
 function is_array_of_chars(x) {
+  if (!Array.isArray(x)) {
+    return false;
+  }
+
   for (var i = 0; i < x.length; ++i) {
-    if ( //Array.isArray(x) ||
-    //x[i].length !== 1 ||
-    !(typeof x[i] === 'string' && x[i].length === 1) && !Number.isInteger(x[i])) {
+    if (!_typeof(x[i]) === 'string' && !Number.isInteger(x[i]) || !x[i] || x[i].length === 0 || Array.isArray(x[i])) {
       return false;
     }
   }
@@ -84,18 +88,20 @@ function is_array_of_chars(x) {
 
 function prepare_for_output(tbl, primes_1, primes_2) {
   if (!Array.isArray(tbl) || !is_array_of_chars(primes_1) || !is_array_of_chars(primes_2)) {
-    return new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers.");
+    return new TypeError("must provide a 2D array of strings or numbers, and 2 arrays of either strings or numbers.");
   }
 
-  tbl.forEach(function (x) {
-    if (!is_array_of_chars(x)) {
-      return new TypeError("tbl must be a 2D array of chars or integers.");
+  for (var i = 0; i < tbl.length; ++i) {
+    if (!is_array_of_chars(tbl[i])) {
+      return new TypeError("tbl must be a 2D array of strings or integers.");
     }
 
-    if (x.length !== primes_1.length) {
+    if (tbl[i].length !== primes_1.length) {
       return new TypeError("each row in tbl must be of same length as primes_1");
     }
-  });
+  }
+
+  ;
 
   if (tbl.length !== primes_2.length) {
     return new TypeError("each column in tbl must be of same length as primes_2");

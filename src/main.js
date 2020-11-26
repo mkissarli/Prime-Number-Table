@@ -56,29 +56,38 @@ export function make_multi_table(A, B){
 }
 
 export function is_array_of_chars(x){
+    if(!Array.isArray(x)){
+        return false;
+    }
     for(var i = 0; i < x.length; ++i){
-        if(!(typeof(x[i]) === 'string' && x[i].length === 1) &&
-           !Number.isInteger(x[i])){
+        if((!typeof(x[i]) === 'string' &&
+            !Number.isInteger(x[i])) ||
+           !x[i] ||
+           x[i].length === 0 ||
+           Array.isArray(x[i])){
             return false;
         }
+        
     };
     return true;
 }
+
 
 export function prepare_for_output(tbl, primes_1, primes_2){
     if(!Array.isArray(tbl) ||
        !is_array_of_chars(primes_1) ||
        !is_array_of_chars(primes_2)){
-           return (new TypeError("must provide a 2D array of chars or integers, and 2 arrays of either chars or numbers."))
+           return (new TypeError("must provide a 2D array of strings or numbers, and 2 arrays of either strings or numbers."))
     }
-    tbl.forEach((x) => {
-        if(!is_array_of_chars(x)){
-            return (new TypeError("tbl must be a 2D array of chars or integers."))
+
+    for(var i = 0; i < tbl.length; ++i){
+        if(!is_array_of_chars(tbl[i])){
+            return (new TypeError("tbl must be a 2D array of strings or integers."))
         }
-        if(x.length !== primes_1.length){
+        if(tbl[i].length !== primes_1.length){
             return (new TypeError("each row in tbl must be of same length as primes_1"));
         }
-    });
+    };
     
     if(tbl.length !== primes_2.length){
         return (new TypeError("each column in tbl must be of same length as primes_2"));
@@ -92,6 +101,21 @@ export function prepare_for_output(tbl, primes_1, primes_2){
     }
 
     return tbl;
+}
+
+function pretty_print(n){
+    primes = sieve_under_n(n);
+    output = prepare_for_output(make_multi_table(primes, primes));
+
+    // pad it out.
+    var s = " ";
+    for(var i = 0; i < output.length; ++i){
+        if(i % primes.length === 0){
+            print(s);
+            s = "| ";
+        }
+        s = s.concat(output[i] + "| ");
+    }
 }
 
 //exports.sieve_under_n = sieve_under_n;
