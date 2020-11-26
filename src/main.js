@@ -39,6 +39,11 @@ export function is_prime(n) {
 }
 
 export function make_multi_table(A, B){
+    if(!Array.isArray(A) || !Array.isArray(B) ||
+       A.some(isNaN) || B.some(isNaN)){
+        return (new TypeError("must provide two 1D arrays."));
+    }
+        
     var result = [];
     for(var i = 0; i < A.length; ++i){
         let row = [];
